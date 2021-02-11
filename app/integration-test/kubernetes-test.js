@@ -77,7 +77,6 @@ describe("Test on kubernetes", function () {
 
   it("Hello world should be deployed", async function () {
     await kApply(helloResources);
-    console.log("waiting")
     await waitForDeployment("hello-kubernetes","default",30000);
   });
 
@@ -85,8 +84,10 @@ describe("Test on kubernetes", function () {
     await waitForService("hello-kubernetes","default",30000);
   });
 
-  it("The pod name should match the response", async function () {
+  it("Service should return Hello world", async function () {
     const response = await axios.get(`http://localhost/api`)
-    console.dir(response.data);
+    if (response.data.message != "Hello world!") {
+      throw Error("Unxpected response" + response.data)
+    }
   })
 })
