@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Hello Kubernetes!</title>
+  <style>
+    * {
+      font-family: sans-serif;
+      margin: 0;
+    }
+    div {
+      border-style: solid;
+      border-width: 5px;
+      border-color: dodgerblue;
+      background-color: white;
+      color: dodgerblue;
+    }
+
+    h1 {
+      background-color: dodgerblue;
+      color: white;
+      padding: 55px;
+      text-align: center;
+    }
+    td {
+      padding: 20px;
+    }
+    th {
+      padding: 20px;
+      text-align: right;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Hello kubernetes</h1>
+  <div>
+    <table>
+      <tr>
+        <th>message:</th>
+        <td id="message"></td>
+      </tr>
+      <tr>
+        <th>pod:</th>
+        <td id="hostName"></td>
+      </tr>
+      <tr>
+        <th>node:</th>
+        <td id="node"></td>
+      </tr>
+    </table>
+  
+  </div>
+  
+  <script>
+    fetch("./api").then((response) => response.json()).then((msg) => {
+      console.dir(msg);
+      document.getElementById("message").innerText = msg.message;
+      document.getElementById("hostName").innerText = msg.hostName;
+      document.getElementById("node").innerText = `${msg.platform} (${msg.release})`;
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "hello-k3s",
+  "description": "Sample application for integration tests deployed on Kubernetes",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "server.js",
+  "repository": {
+    "url": "https://github.com/pbochynski/hello-k3s.git",
+    "type": "git"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@kubernetes/client-node": "0.13.0",
+    "axios": "^0.21.1",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.1"
+  }
+}

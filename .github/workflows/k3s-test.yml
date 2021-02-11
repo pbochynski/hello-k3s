@@ -1,0 +1,43 @@
+name: Tests on k3s (nodejs installer)
+
+on:
+  workflow_dispatch:
+    input:
+      version:
+        description: 'Version'
+        required: true
+        default: 'latest'
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@v2
+    - name: Prepare docker registry and k3s
+      run: |
+        ./create-cluster-k3s.sh
+        while [[ $(kubectl get nodes -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "Waiting for cluster nodes to be ready"; sleep 2; done
+    # - name: Setup tmate session
+    #   uses: mxschmitt/action-tmate@v3
+    - name: Build image
+      run: |
+        export VERSION=$(cat app/package.json| jq -r '.version')
+        docker build -f Dockerfile -t registry.localhost:5000/pbochynski/hello-k3s:$VERSION app
+        docker push registry.localhost:5000/pbochynski/hello-k3s:$VERSION
+    - name: Install Kyma and run tests
+      run: |
+        cd app
+        npm install
+        npx mocha integration-test
+    - name: Publish image
+      run: |
+        docker tag registry.localhost:5000/pbochynski/hello-k3s:$VERSION ghcr.io/pbochynski/hello-k3s:$VERSION
+        docker push ghcr.io/pbochynski/hello-k3s:$VERSION
