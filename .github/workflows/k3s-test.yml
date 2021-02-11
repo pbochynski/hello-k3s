@@ -2,7 +2,7 @@ name: Tests on k3s (nodejs installer)
 
 on:
   workflow_dispatch:
-    input:
+    inputs:
       publish:
         description: 'Publish image (true|false)'
         required: true
