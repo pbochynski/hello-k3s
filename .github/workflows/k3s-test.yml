@@ -1,4 +1,4 @@
-name: Tests on k3s (nodejs installer)
+name: Tests on k3s
 
 on:
   workflow_dispatch:
