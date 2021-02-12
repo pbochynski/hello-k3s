@@ -88,7 +88,7 @@ describe("Test on kubernetes", function () {
 
   it("Service should return message", async function () {
     const response = await axios.get(`http://localhost/api`)
-    expect(response.data.message).equals("Hello dkom!");
+    expect(response.data.message).equals("Hello world!");
   });
 
   it.skip("Clean up", async function(){
