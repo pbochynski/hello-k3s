@@ -1,18 +1,6 @@
 #!/bin/bash
 set -o errexit
 
-SECONDS=0  
-
-# Check memory
-MEMORY=8192
-REQUIRED_MEMORY=$(expr $MEMORY \* 1024 \* 1024)
-DOCKER_MEMEORY=$(docker info --format '{{json .MemTotal}}')
-
-if (( $REQUIRED_MEMORY > $DOCKER_MEMEORY )); then
-    echo "Container memory in not sufficient. Please configure Docker to support containers with at least ${MEMORY} MB."
-    exit 1
-fi
-
 # Create docker network
 docker network create hello || echo "hello network already exists"
 
