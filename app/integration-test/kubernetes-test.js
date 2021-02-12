@@ -91,7 +91,7 @@ describe("Test on kubernetes", function () {
     expect(response.data.message).equals("Hello world!");
   });
 
-  it.skip("Clean up", async function(){
+  it("Clean up", async function(){
     for (resource of helloResources) {
       await k8sDynamicApi.delete(resource);
     }
