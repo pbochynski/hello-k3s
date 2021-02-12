@@ -1,32 +1,36 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-kubernetes
+  name: hello-k3s
 spec:
   type: LoadBalancer
   ports:
   - port: 80
     targetPort: 8080
   selector:
-    app: hello-kubernetes
+    app: hello-k3s
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-kubernetes
+  name: hello-k3s
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello-kubernetes
+      app: hello-k3s
   template:
     metadata:
       labels:
-        app: hello-kubernetes
+        app: hello-k3s
     spec:
       containers:
-      - name: hello-kubernetes
+      - name: hello-k3s
         image: ghcr.io/pbochynski/hello-k3s:0.1.1
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+        # env:
+        # - name: MESSAGE
+        #   value: Hello dkom!
+          

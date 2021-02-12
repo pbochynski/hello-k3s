@@ -12,7 +12,7 @@ const watch = new k8s.Watch(kc);
 const k8sDynamicApi = kc.makeApiClient(k8s.KubernetesObjectApi);
 
 const helloYaml = fs.readFileSync(
-  path.join(__dirname, "./hello-kubernetes.yaml"),
+  path.join(__dirname, "../../hello-k3s.yaml"),
   {
     encoding: "utf8",
   }
@@ -75,19 +75,20 @@ function waitForService(name, namespace = "default", timeout = 90000) {
 
 describe("Test on kubernetes", function () {
   this.timeout(60 * 1000);
+  this.slow(5 *1000);
 
   it("Hello world should be deployed", async function () {
     await kApply(helloResources);
-    await waitForDeployment("hello-kubernetes","default",30000);
+    await waitForDeployment("hello-k3s","default",30000);
   });
 
   it("Service should get external IP", async function () {
-    await waitForService("hello-kubernetes","default",30000);
+    await waitForService("hello-k3s","default",30000);
   });
 
   it("Service should return message", async function () {
     const response = await axios.get(`http://localhost/api`)
-    expect(response.data.message).equals("Hello world!");
+    expect(response.data.message).equals("Hello dkom!");
   });
 
   it.skip("Clean up", async function(){
