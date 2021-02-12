@@ -142,11 +142,16 @@ The answer is in the next [chapter](#registry-mirror).
 Create a fork of the repository, push the changes to it and create the Pull Request. I assume you know that basics, but if not you can find all the information in [github help](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/working-with-forks).
 
 If you did everything right (code & test changes) you should see a successful check in your PR, like this:
-
+![](check.png)
 
 # Registry mirror
 
+## Why do you need registry mirror?
+Working with kubernetes means deploying container images. `hello-k3s` image size is 181 MB. Average application is composed from many such images and additionally requires few third party images. You can safely assume that typical cloud application requires more than 1GB of images. If you work with local kubernetes created on-demand you need to download them each time. With high-speed internet connection it is not a big issue, but these days many of us work from home and struggle with limited bandwidth. With 30MB connection the startup of your cluster can be delayed by several minutes - probably you don't want it.
 
+## How does it work?
+
+![](registry-mirror.png)
 
 # Links
 The hello-k3s application is modified version of [hello-kubernetes](https://github.com/paulbouwer/hello-kubernetes) from [Paul Bouwer](https://github.com/paulbouwer)
