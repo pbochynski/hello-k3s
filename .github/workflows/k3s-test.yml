@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PUBLISH: ${{ github.event.inputs.publish }}
+      DOCKER_BUILDKIT: 1
     timeout-minutes: 15
     steps:
     - uses: actions/checkout@v2
