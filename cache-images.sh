@@ -8,6 +8,6 @@ function cacheImage () {
   fi
 }
 
-docker exec -it k3d-kyma-server-0 sh -c "ctr images ls -q" >images.txt 
+docker exec -it k3d-hello-server-0 sh -c "ctr images ls -q" >images.txt 
 cat images.txt | while read -r line; do cacheImage "$line"; done
 

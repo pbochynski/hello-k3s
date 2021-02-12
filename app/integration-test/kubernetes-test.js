@@ -2,6 +2,7 @@ const k8s = require("@kubernetes/client-node");
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
+const { expect } = require("chai");
 
 const kc = new k8s.KubeConfig();
 kc.loadFromDefault();
@@ -84,10 +85,15 @@ describe("Test on kubernetes", function () {
     await waitForService("hello-kubernetes","default",30000);
   });
 
-  it("Service should return Hello world", async function () {
+  it("Service should return message", async function () {
     const response = await axios.get(`http://localhost/api`)
-    if (response.data.message != "Hello world!") {
-      throw Error("Unxpected response" + response.data)
+    expect(response.data.message).equals("Hello world!");
+  });
+
+  it.skip("Clean up", async function(){
+    for (resource of helloResources) {
+      await k8sDynamicApi.delete(resource);
     }
   })
+
 })
