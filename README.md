@@ -151,7 +151,20 @@ Working with kubernetes means deploying container images. `hello-k3s` image size
 
 ## How does it work?
 
+The script that creates a cluster starts first local docker registry (registry.localhost:5000). This registry uses local disk as a storage (folder registry in this project). This registry is configured also as a mirror for the few popular container registries (docker.io, gcr.io ghcr.io, quay.io). The configuration is defined in the [registries.yaml](registries.yaml) file. 
+If you push the image you use in your deployment to this registry (changing registry host to registry.localhost:5000) then it will be picked from your there by `containerd` in k3s cluster.
+
+
 ![](registry-mirror.png)
 
+## Cache all the images from the cluster
+
+
+Install [crane](https://github.com/google/go-containerregistry/tree/master/cmd/crane) tool with:
+```
+GO111MODULE=on go get -u github.com/google/go-containerregistry/cmd/crane
+```
+
+When you deploy your application and all other components you would like to cache execute [cache-images.sh](cache-images.sh) script. It creates list of all images in your cluster (in file images.txt) and pushes them you registry.localhost:5000.
 # Links
 The hello-k3s application is modified version of [hello-kubernetes](https://github.com/paulbouwer/hello-kubernetes) from [Paul Bouwer](https://github.com/paulbouwer)
